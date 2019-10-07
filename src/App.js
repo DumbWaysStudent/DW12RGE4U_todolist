@@ -1,20 +1,40 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-
-// import Todo from './components/ToDo';
-//import Todo from './components/AddTodo';
-// import Todo from './components/DeleteTodo';
-// import Todo from './components/DoneTodo';
-import Todo from './components/UpdateTodo';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 class App extends Component {
+  constructor() {
+    super(); 
+    this.state = {
+      todo: ['work', 'swim', 'study', 'sleep', 'run']
+    };
+  }
+
   render() {
     return (
       <View>
-        <Todo />
+        {this.state.todo.map(item => {
+          return (
+            <View key={item}>
+              <TouchableOpacity>
+                <Text style={styles.list}>{item}</Text>
+              </TouchableOpacity>
+            </View>
+          );
+        })}
       </View>
     );
   }
 }
-
 export default App;
+
+const styles = StyleSheet.create({
+  list: {
+    paddingVertical: 7,
+    fontSize: 25,
+    fontWeight: '200',
+    borderBottomColor: '#000',    
+    borderBottomWidth: 2,
+    paddingLeft: 7,
+    textTransform: 'capitalize'
+  }
+});
