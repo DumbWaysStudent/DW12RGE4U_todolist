@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default class AddTodo extends Component {
+export default class DeleteTodo extends Component {
   constructor() {
     super();
     this.state = {
@@ -22,12 +23,18 @@ export default class AddTodo extends Component {
     }
   }
 
-  deleteTodo() {
-
+  deleteTodo(item) {
+    const newList = this.state.todo.filter(e => {
+      return e !== item;
+    });
+    this.setState({
+      todo: [...newList]
+    });
   }
+  
 
   render() {
-    //console.log(this.state.newTodo);
+    console.log(this.state.todo);
     return (
       <View>
 
@@ -60,6 +67,12 @@ export default class AddTodo extends Component {
                 style={styles.list}
               >
                 <Text style={styles.textList}>{item}</Text>
+                <TouchableOpacity
+                  onPress={() => this.deleteTodo(item)}
+                >
+                  <Icon name="trash" size={25} color='tomato' />
+                </TouchableOpacity>
+
               </View>
             );
           })}
