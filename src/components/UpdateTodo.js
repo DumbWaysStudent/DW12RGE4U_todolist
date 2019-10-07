@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class UpdateTodo extends Component {
@@ -8,27 +7,20 @@ export default class UpdateTodo extends Component {
     super();
     this.state = {
       getTodo: '',
-      todo: [
-        { name: 'work', check: false },
-        { name: 'run', check: false },
-        { name: 'sleep', check: false },
-        { name: 'coding', check: false }
-      ],
+      todo: ['work', 'swim', 'study', 'sleep', 'run'],
       isUpdate: false,
       itemSelect: '',
-      index: '',
-      zz: [{ aa: 'asdas', bb: 'asdsd' }, { aa: 'asdas', bb: 'asdsd' }],
+      index: ''
     };
   }
 
   addTodo() {
     const { getTodo } = this.state;
-    if (getTodo === '') {
+    if (this.state.getTodo === '') {
       alert('Field Todo Belum Diisi');
     } else {
-      const add = { name: getTodo };
       this.setState({
-        todo: [...this.state.todo, add],
+        todo: [...this.state.todo, getTodo],
         getTodo: '',
       });
     }
@@ -46,27 +38,21 @@ export default class UpdateTodo extends Component {
   editTodo(item, i) {
     this.setState({
       isUpdate: true,
-      getTodo: item.name,
+      getTodo: item,
       index: i
     });
   }
 
   update() {
     const { todo, getTodo, index } = this.state;
-    todo[index].name = getTodo;
-
+    todo[index] = getTodo;
+      
     this.setState({
       isUpdate: false,
       todo: [...todo],
       index: '',
       getTodo: ''
     });
-  }
-
-  updateCheck(chek) {
-    const i = this.state.todo.find(item => item.name === chek.name);
-    i.check = !i.check;
-    this.setState({});
   }
 
   renderButton() {
@@ -93,6 +79,7 @@ export default class UpdateTodo extends Component {
   }
 
   render() {
+    console.log(this.state.todo);
     return (
       <View>
 
@@ -115,15 +102,11 @@ export default class UpdateTodo extends Component {
           {this.state.todo.map((item, i) => {
             return (
               <View
-                key={i}
+                key={item}
                 style={styles.list}
               >
-                <View style={styles.checkList}>
-                  <CheckBox
-                    value={item.check}
-                    onChange={() => this.updateCheck(item)}
-                  />
-                  <Text style={styles.textList}>{item.name}</Text>
+                <View>
+                  <Text style={styles.textList}>{item}</Text>
                 </View>
 
                 <View style={styles.actionStyle}>
@@ -140,7 +123,7 @@ export default class UpdateTodo extends Component {
                     <Icon name="trash" size={25} color='tomato' />
                   </TouchableOpacity>
                 </View>
-
+                
               </View>
             );
           })}
@@ -179,10 +162,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     justifyContent: 'space-between',
     paddingRight: 20
-  },
-  checkList: {
-    flexDirection: 'row',
-    alignItems: 'center'
   },
   textList: {
     fontSize: 20,
